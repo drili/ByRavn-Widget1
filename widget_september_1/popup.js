@@ -3,28 +3,21 @@
 // });
 
 function applyBackgroundIfConditionsMet() {
-    // XPath to find the element with "_Tekst på bagsiden"
     var bagsidenXPath = "//span[text()[contains(.,'_Tekst på bagsiden')]]";
     var bagsidenElement = document.evaluate(bagsidenXPath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
 
-    // Check if we found the "_Tekst på bagsiden" element
     if (bagsidenElement) {
-        // Find the next sibling <div> which contains the images in "_Tekst på bagsiden"
         var bagsidenImagesDiv = bagsidenElement.closest('div.Polaris-InlineStack').querySelector('div > p > img');
 
-        // XPath to find the element with "_Tekst på forsiden"
         var forsidenXPath = "//span[text()[contains(.,'_Tekst på forsiden')]]";
         var forsidenElement = document.evaluate(forsidenXPath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
 
-        // Check if "_Tekst på forsiden" exists and is empty (no images or content inside)
         if (forsidenElement) {
             var forsidenContentDiv = forsidenElement.closest('div.Polaris-InlineStack').querySelector('div');
 
-            // If "_Tekst på forsiden" is empty and "_Tekst på bagsiden" contains images
             if (!forsidenContentDiv.hasChildNodes() && bagsidenImagesDiv) {
-                // Apply red background to the "_Tekst på bagsiden" element
-                bagsidenElement.style.background = '#ffdad8';
-                console.log('Applied red background to "_Tekst på bagsiden" because "_Tekst på forsiden" is empty and images are present in "_Tekst på bagsiden".');
+                bagsidenElement.style.background = '#ff9800';
+                console.log('Applied orange background to "_Tekst på bagsiden" because "_Tekst på forsiden" is empty and images are present in "_Tekst på bagsiden".');
             }
         }
     }
