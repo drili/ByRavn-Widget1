@@ -1,14 +1,15 @@
-chrome.runtime.onInstalled.addListener(function() {
-  // ...
+// Listen for when the extension is installed or updated
+chrome.runtime.onInstalled.addListener(() => {
+    console.log("Extension installed");
+});
 
-  chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
-    // changeInfo object: https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/onUpdated#changeInfo
-    // status is more reliable (in my case)
-    // use "alert(JSON.stringify(changeInfo))" to check what's available and works in your case
+// Listen for tab updates (e.g., page loads)
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+    // Check if the tab's status is 'complete' (i.e., page fully loaded)
     if (changeInfo.status === 'complete') {
-      chrome.tabs.sendMessage(tabId, {
-        message: 'TabUpdated'
-      });
+        // Send a message to the content script in the updated tab
+        chrome.tabs.sendMessage(tabId, {
+            message: 'TabUpdated'
+        });
     }
-  })
 });

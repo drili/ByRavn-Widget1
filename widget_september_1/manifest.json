@@ -1,33 +1,29 @@
 {
-     "manifest_version": 2,
-     "name": "ByRavn Image Replacer (16-09-2024 (v10.08))",
-     "description": "Evaluate and replace encoded images",
-     "version": "1.0",
-     "background": {
-          "scripts":["background.js"]
-     },
+  "manifest_version": 3,
+  "name": "ByRavn Image Replacer (17-09-2024 (v11.33))",
+  "description": "Evaluate and replace encoded images",
+  "version": "1.0",
 
-     "content_scripts": [{
-          "matches": [
-               "*://*/*.*",
-               "file:///*/*.*",
-               "http://*/*",
-               "https://*/*"
-          ],
-          "css": ["style.css"],
-          "js": ["popup.js"],
-          "run_at": "document_start",
-          "all_frames": true
-     }],
+  "background": {
+    "service_worker": "background.js"
+  },
 
-     "browser_action": {
-          "default_icon": "icon.png",
-          "default_popup": "popup.html"
-     },
+  "content_scripts": [
+    {
+      "matches": ["*://*/*.*", "file:///*/*.*", "http://*/*", "https://*/*"],
+      "css": ["style.css"],
+      "js": ["popup.js"],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
 
-     "permissions": [
-          "activeTab",
-          "storage",
-          "<all_urls>"
-     ]
+  "action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+
+  "permissions": ["activeTab", "storage", "scripting", "tabs"],
+
+  "host_permissions": ["<all_urls>"]
 }
