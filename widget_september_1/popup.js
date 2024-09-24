@@ -30,7 +30,7 @@ function myFunction() {
 
         // Highlight quantity
         const quantityDiv = document.querySelectorAll('div._QuantityByPrice_ul3qw_20');
-
+        
         quantityDiv.forEach(quantityDiv => {
             const quantityText = quantityDiv.textContent.split('×')[1].trim();
 
@@ -45,6 +45,25 @@ function myFunction() {
             }
         })
 
+
+        const quantityDivDiscount = document.querySelectorAll('div._DiscountedPrice_ul3qw_10');
+        
+        if (quantityDivDiscount) {
+            quantityDivDiscount.forEach(quantityDivDiscount => {
+                const quantityText = quantityDivDiscount.textContent.split('×')[1].trim();
+    
+                const quantity = parseInt(quantityText, 10);
+    
+                if (quantity > 1) {
+                    quantityDivDiscount.classList.add('highlight-quantity');
+                    quantityDivDiscount.style.color = "red";
+                } else {
+                    quantityDivDiscount.classList.add('not-highlight-quantity');
+                    // quantityDivDiscount.style.color = "green";
+                }
+            })
+        }
+        
         // Symbol _ changes
         var xElement = document.querySelectorAll("[src*='Symbol-_']");
         for (var i = 0; i < xElement.length; i++) {
