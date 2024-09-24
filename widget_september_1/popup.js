@@ -21,6 +21,51 @@ function applyBackgroundIfConditionsMet() {
             }
         }
     }
+
+    // *** Hide elements
+    var hideElement1 = "//span[text()[contains(.,'_Tekst på forsiden')]]";
+    var hideElement1Node = document.evaluate(hideElement1, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+    if (hideElement1Node) {
+        hideElement1Node.style.display = "none";
+    }
+
+    var inlineStacks = document.querySelectorAll('.Polaris-InlineStack'); 
+    inlineStacks.forEach(function(stack) {
+        var containsForside = stack.querySelector('span') && stack.querySelector('span').textContent.includes('Forside:');
+        var containsText = stack.querySelector('p') && stack.querySelector('p').textContent.includes('Vælg populær tekst');
+
+        if (containsForside && containsText) {
+            stack.style.display = 'none';
+        }
+
+        var containsBagside = stack.querySelector('span') && stack.querySelector('span').textContent.includes('Bagside:');
+        var containsTextBagside = stack.querySelector('p') && stack.querySelector('p').textContent.includes('Skriv din egen tekst');
+
+        if (containsBagside && containsTextBagside) {
+            stack.style.display = 'none';
+        }
+
+        var containsDinBagside = stack.querySelector('span') && stack.querySelector('span').textContent.includes('Din tekst på bagsiden');
+
+        if (containsDinBagside) {
+            stack.style.display = 'none';
+        }
+    });
+
+    // *** Move forsiden to top.
+    var spanElements = document.querySelectorAll("span.Polaris-Text--root.Polaris-Text--bodyMd.Polaris-Text--subdued");
+    spanElements.forEach(function(spanElement) {
+        if (spanElement.textContent.trim() === 'Tekst på forsiden:') {
+            
+            var attributeRow = spanElement.closest('._AttributeRow_2u7z6_14');
+            
+            var blockStack = attributeRow.closest('.Polaris-BlockStack');
+            
+            if (blockStack && attributeRow) {
+                blockStack.insertBefore(attributeRow, blockStack.firstChild);
+            }
+        }
+    });
 }
 
 function myFunction() {
@@ -47,7 +92,7 @@ function myFunction() {
 
 
         const quantityDivDiscount = document.querySelectorAll('div._DiscountedPrice_ul3qw_10');
-        
+
         if (quantityDivDiscount) {
             quantityDivDiscount.forEach(quantityDivDiscount => {
                 const quantityText = quantityDivDiscount.textContent.split('×')[1].trim();
