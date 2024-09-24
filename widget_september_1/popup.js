@@ -25,8 +25,14 @@ function applyBackgroundIfConditionsMet() {
     // *** Hide elements
     var hideElement1 = "//span[text()[contains(.,'_Tekst på forsiden')]]";
     var hideElement1Node = document.evaluate(hideElement1, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+
     if (hideElement1Node) {
-        hideElement1Node.style.display = "none";
+        var parentDiv = hideElement1Node.closest('div.Polaris-InlineStack');
+        var containsImages = parentDiv.querySelectorAll('img').length > 0;
+
+        if (!containsImages) {
+            hideElement1Node.style.display = "none";
+        }
     }
 
     var inlineStacks = document.querySelectorAll('.Polaris-InlineStack'); 
