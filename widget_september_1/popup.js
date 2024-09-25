@@ -3,13 +3,21 @@
 // });
 
 function applyBackgroundIfConditionsMet() {
-    var bagsidenXPath = "//span[text()[contains(.,'_Tekst på bagsiden')]]";
+    if (window.location.href.indexOf("admin.shopify.com/store/byravn-se") >= 0) {
+        var bagsidenXPath = "//span[text()[contains(.,'_Text på baksidan')]]";
+    } else {
+        var bagsidenXPath = "//span[text()[contains(.,'_Tekst på bagsiden')]]";
+    }
     var bagsidenElement = document.evaluate(bagsidenXPath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
 
     if (bagsidenElement) {
         var bagsidenImagesDiv = bagsidenElement.closest('div.Polaris-InlineStack').querySelector('div > p > img');
 
-        var forsidenXPath = "//span[text()[contains(.,'_Tekst på forsiden')]]";
+        if (window.location.href.indexOf("admin.shopify.com/store/byravn-se") >= 0) {
+            var forsidenXPath = "//span[text()[contains(.,'_Text på framsidan')]]";
+        } else {
+            var forsidenXPath = "//span[text()[contains(.,'_Tekst på forsiden')]]";
+        }
         var forsidenElement = document.evaluate(forsidenXPath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
 
         if (forsidenElement) {
@@ -23,7 +31,11 @@ function applyBackgroundIfConditionsMet() {
     }
 
     // *** Hide elements
-    var hideElement1 = "//span[text()[contains(.,'_Tekst på forsiden')]]";
+    if (window.location.href.indexOf("admin.shopify.com/store/byravn-se") >= 0) {
+        var hideElement1 = "//span[text()[contains(.,'_Text på framsidan')]]";
+    } else {
+        var hideElement1 = "//span[text()[contains(.,'_Tekst på forsiden')]]";
+    }
     var hideElement1Node = document.evaluate(hideElement1, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
 
     if (hideElement1Node) {
@@ -37,15 +49,27 @@ function applyBackgroundIfConditionsMet() {
 
     var inlineStacks = document.querySelectorAll('.Polaris-InlineStack'); 
     inlineStacks.forEach(function(stack) {
-        var containsForside = stack.querySelector('span') && stack.querySelector('span').textContent.includes('Forside:');
-        var containsText = stack.querySelector('p') && stack.querySelector('p').textContent.includes('Vælg populær tekst');
+        if (window.location.href.indexOf("admin.shopify.com/store/byravn-se") >= 0) {
+            var containsForside = stack.querySelector('span') && stack.querySelector('span').textContent.includes('Framsida:');
+            var containsText = stack.querySelector('p') && stack.querySelector('p').textContent.includes('Välj en populär text');
+        } else {
+            var containsForside = stack.querySelector('span') && stack.querySelector('span').textContent.includes('Forside:');
+            var containsText = stack.querySelector('p') && stack.querySelector('p').textContent.includes('Vælg populær tekst');
+        }
+        
 
         if (containsForside && containsText) {
             stack.style.display = 'none';
         }
 
-        var containsBagside = stack.querySelector('span') && stack.querySelector('span').textContent.includes('Bagside:');
-        var containsTextBagside = stack.querySelector('p') && stack.querySelector('p').textContent.includes('Skriv din egen tekst');
+        if (window.location.href.indexOf("admin.shopify.com/store/byravn-se") >= 0) {
+            var containsBagside = stack.querySelector('span') && stack.querySelector('span').textContent.includes('Baksida');
+            var containsTextBagside = stack.querySelector('p') && stack.querySelector('p').textContent.includes('Ingen text');
+        } else {
+            var containsBagside = stack.querySelector('span') && stack.querySelector('span').textContent.includes('Bagside:');
+            var containsTextBagside = stack.querySelector('p') && stack.querySelector('p').textContent.includes('Skriv din egen tekst');
+        }
+        
 
         if (containsBagside && containsTextBagside) {
             stack.style.display = 'none';
@@ -61,7 +85,10 @@ function applyBackgroundIfConditionsMet() {
     // *** Move forsiden to top.
     var spanElements = document.querySelectorAll("span.Polaris-Text--root.Polaris-Text--bodyMd.Polaris-Text--subdued");
     spanElements.forEach(function(spanElement) {
-        if (spanElement.textContent.trim() === 'Tekst på forsiden:') {
+        if (
+            spanElement.textContent.trim() === 'Tekst på forsiden:' ||
+            spanElement.textContent.trim() === 'Text på framsidan:'
+        ) {
             
             var attributeRow = spanElement.closest('._AttributeRow_2u7z6_14');
             
@@ -459,7 +486,7 @@ function myFunction() {
                     matchingElement.style.background = '#ffe4a8';
                 }
 
-                var colorpath = "//span[text()[contains(.,'_Indpakning')]]";
+                var colorpath = "//span[text()[contains(.,'Presentinslagning')]]";
                 var matchingElement = document.evaluate(colorpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
                 if (matchingElement) {
                     matchingElement.style.background = '#ffdad8';
